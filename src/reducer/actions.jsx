@@ -13,10 +13,31 @@ export const removeFavorite = (userId) => ({
     payload: userId,
 });
 
-export const fetchUsers = (users) => ({
-    type: FETCH_USERS,
-    payload: users,
-});
+export const fetchUsers = () => {
+    return (dispatch) => {
+        const storedUsers = JSON.parse(localStorage.getItem('users'));
+
+        if (storedUsers) {
+            dispatch({
+                type: FETCH_USERS,
+                payload: storedUsers,
+            });
+        } else {
+            fetch('https://jsonplaceholder.typicode.com/users')
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch({
+                        type: FETCH_USERS,
+                        payload: data,
+                    });
+                    localStorage.setItem('users', JSON.stringify(data));
+                })
+                .catch((error) => {
+                    console.error('Error fetching users:', error);
+                });
+        }
+    };
+};
 
 export const addUser = (user) => ({
     type: ADD_USER,

@@ -11,7 +11,7 @@ const usersReducer = (state = usersInitialState, action) => {
         case FETCH_USERS:
             return {
                 ...state,
-                users: action.payload,
+                users: action.payload, 
             };
         case ADD_USER:
             const updatedUsers = [...state.users, action.payload];

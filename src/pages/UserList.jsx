@@ -20,21 +20,7 @@ function ListHistory() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const storedUsers = JSON.parse(localStorage.getItem('users'));
-        if (storedUsers) {
-            dispatch(fetchUsers(storedUsers));
-        } else {
-            fetch('https://jsonplaceholder.typicode.com/users')
-                .then((response) => response.json())
-                .then((data) => {
-                    dispatch(fetchUsers(data));
-                    localStorage.setItem('users', JSON.stringify(data));
-                })
-                .catch((error) => {
-                    console.error('Error fetching users:', error)
-                    setError(error?.msg)
-                });
-        }
+        dispatch(fetchUsers());
     }, [dispatch]);
 
     const isFavorite = (userId) => {

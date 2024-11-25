@@ -5,6 +5,7 @@ import { addUser } from '../reducer/actions';
 import Swal from 'sweetalert2';
 import Navbar from "../common/Navbar";
 import { Helmet } from 'react-helmet';
+import _ from 'lodash';
 
 function AddUserForm() {
     const [formData, setFormData] = useState({
@@ -33,35 +34,10 @@ function AddUserForm() {
 
     const dispatch = useDispatch();
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const fieldName = name.split('.');
-
-        if (fieldName.length === 1) {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-        } else if (fieldName.length === 2) {
-            setFormData({
-                ...formData,
-                [fieldName[0]]: {
-                    ...formData[fieldName[0]],
-                    [fieldName[1]]: value,
-                },
-            });
-        } else if (fieldName.length === 3) {
-            setFormData({
-                ...formData,
-                [fieldName[0]]: {
-                    ...formData[fieldName[0]],
-                    [fieldName[1]]: {
-                        ...formData[fieldName[0]][fieldName[1]],
-                        [fieldName[2]]: value,
-                    },
-                },
-            });
-        }
+        setFormData((prevData) => _.set({ ...prevData }, name, value));
     };
 
     const handleSubmit = (e) => {
